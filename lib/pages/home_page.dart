@@ -4,6 +4,7 @@ import 'package:drive/screens/Home_Screen.dart';
 import 'package:drive/screens/SharedScreen.dart';
 import 'package:drive/screens/StarredScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
@@ -19,6 +20,9 @@ class _HomePageState extends State<HomePage> {
   List pages = [HomeScreen(), StarredScreen(), SharedScreen(), FileScreen()];
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Color.fromARGB(255, 147, 46, 254),
+    ));
     return DefaultTabController(
         length: 2,
         child: Scaffold(
