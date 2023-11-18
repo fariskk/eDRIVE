@@ -4,7 +4,7 @@ class validator {
   String? password;
   String? conformPassword;
   String? validateUserName() {
-    if (userName == null) {
+    if (userName == "") {
       return "username is mandatory";
     } else if (userName!.length < 8) {
       return "username must have 8 charecters";
@@ -13,7 +13,7 @@ class validator {
   }
 
   String? validateEmail() {
-    if (email == null) {
+    if (email == "") {
       return "email is mandatory";
     } else if (!email!.contains("@")) {
       return "invalid email";
@@ -22,7 +22,7 @@ class validator {
   }
 
   String? validatePassword() {
-    if (password == null) {
+    if (password == "") {
       return "password is mandatory";
     } else if (password!.length < 8) {
       return "password must have 8 charectors";
@@ -31,7 +31,7 @@ class validator {
   }
 
   String? validateConformPassword() {
-    if (conformPassword == null) {
+    if (conformPassword == "") {
       return "confrm your password";
     } else if (conformPassword != password) {
       return "password donot match";

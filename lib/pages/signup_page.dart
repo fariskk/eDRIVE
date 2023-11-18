@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive/featurs/form_validation.dart';
+import 'package:drive/featurs/signUp.dart';
+import 'package:drive/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatefulWidget {
@@ -127,19 +130,43 @@ class _SignupPageState extends State<SignupPage> {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 25),
                 child: MaterialButton(
-                  onPressed: () {
-                    validator deatails = validator(
-                        userName: "faris",
-                        email: "faris@gmail",
-                        password: "123",
-                        conformPassword: "123");
-                    setState(() {
-                      userNameError = deatails.validateUserName();
-                      emailError = deatails.validateEmail();
-                      passwordError = deatails.validatePassword();
-                      passwordNotMatchError =
-                          deatails.validateConformPassword();
-                    });
+                  onPressed: () async {
+                    final fir = FirebaseFirestore.instance.collection("users");
+                    final userdata = await fir
+                        .doc(_userName.text.length == 0
+                            ? "NoUser"
+                            : _userName.text)
+                        .get();
+
+                    if (userdata.data() == null) {
+                      validator deatails = validator(
+                          userName: _userName.text,
+                          email: _email.text,
+                          password: _password.text,
+                          conformPassword: _conformPassword.text);
+                      setState(() {
+                        userNameError = deatails.validateUserName();
+                        emailError = deatails.validateEmail();
+                        passwordError = deatails.validatePassword();
+                        passwordNotMatchError =
+                            deatails.validateConformPassword();
+                      });
+                      if (userNameError == null &&
+                          emailError == null &&
+                          passwordError == null &&
+                          passwordNotMatchError == null) {
+                        if (signUp(
+                            _userName.text, _password.text, _email.text)) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => HomePage(),
+                          ));
+                        }
+                      }
+                    } else {
+                      setState(() {
+                        userNameError = "username is already used";
+                      });
+                    }
                   },
                   minWidth: double.infinity,
                   color: const Color.fromARGB(255, 153, 64, 248),

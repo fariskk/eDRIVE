@@ -20,9 +20,6 @@ class _HomePageState extends State<HomePage> {
   List pages = [HomeScreen(), StarredScreen(), SharedScreen(), FileScreen()];
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Color.fromARGB(255, 147, 46, 254),
-    ));
     return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -76,8 +73,12 @@ class _HomePageState extends State<HomePage> {
                       barrierColor: Colors.transparent.withOpacity(.2),
                       context: context,
                       builder: (context) => AlertDialog(
+                        backgroundColor: Colors.transparent,
                         elevation: 0,
-                        content: Text("arhvvgv"),
+                        content: Center(
+                            heightFactor: 3,
+                            widthFactor: 1,
+                            child: CircularProgressIndicator()),
                       ),
                     );
                   },

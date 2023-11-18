@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "528609854124",
+    "project_id": "edrive-9db38",
+    "storage_bucket": "edrive-9db38.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528609854124:android:8b031c60373b3fd3b69509",
+        "android_client_info": {
+          "package_name": "com.example.drive"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjpM4tsmgPmSny0DiMT_CSkw7l_SxoBss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

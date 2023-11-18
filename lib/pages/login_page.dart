@@ -1,18 +1,27 @@
 import 'package:drive/main.dart';
+import 'package:drive/pages/home_page.dart';
 import 'package:drive/pages/signup_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   bool isIncurrectPassword = false;
+  bool isIncurrectUsername = false;
   final _userName = TextEditingController();
+
   final _password = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Color.fromARGB(255, 255, 255, 255),
-    ));
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -49,6 +58,19 @@ class LoginPage extends StatelessWidget {
                       ),
                       hintText: "Username",
                     ),
+                  )),
+              Visibility(
+                  visible: isIncurrectUsername,
+                  child: Row(
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 25.0),
+                        child: Text(
+                          "enter a username with 8 charectors",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    ],
                   )),
               Container(
                   margin: const EdgeInsets.all(20),
@@ -88,7 +110,32 @@ class LoginPage extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 25),
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (_userName.text.length < 8) {
+                      setState(() {
+                        isIncurrectUsername = true;
+                      });
+                      return;
+                    } else {
+                      setState(() {
+                        isIncurrectUsername = false;
+                      });
+                    }
+                    final fir = FirebaseFirestore.instance.collection("users");
+                    final userdata = await fir.doc(_userName.text).get();
+
+                    if (userdata != null) {
+                      if (userdata.data()!["password"] == _password.text) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ));
+                      } else {
+                        setState(() {
+                          isIncurrectPassword = true;
+                        });
+                      }
+                    }
+                  },
                   minWidth: double.infinity,
                   color: const Color.fromARGB(255, 153, 64, 248),
                   height: 45,
